@@ -7,21 +7,22 @@ int main() {
     int from_client;
 
     while (1) {
-        // Repeatedly starts handshake
+        // Constantly does the handshake
         from_client = server_handshake( &to_client );
 
-        char line[BUFFER_SIZE];
-        while (1) { // Prompt client for input
-            if (read(from_client, line, sizeof(line))==0) { // reads data from client
+        char userIn[BUFFER_SIZE];
+        while (1) { 
+            // Reads in the user input
+            if (read(from_client, userIn, sizeof(userIn))==0) { 
                 break;
             }
 
-            // process string to all lower
-            for(int i=0; i<strlen(line); i++) {
-                line[i] = toupper(line[i]);
+            // makes user input all uppercase
+            for(int i=0; i<strlen(userIn); i++) {
+                userIn[i] = toupper(userIn[i]);
             }
-            //send response to parent
-            write(to_client, line, sizeof(line)); // send data to client
+            //send data back to parent
+            write(to_client, userIn, sizeof(userIn));
         }
     }
 }
